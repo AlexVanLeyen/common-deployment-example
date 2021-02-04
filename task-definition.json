@@ -1,0 +1,21 @@
+{
+  "memory": "1024",
+  "cpu": "512",
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "taskRoleArn": "arn:aws:iam::454901754926:role/dev-454901754926-ExecutionRole",
+  "executionRoleArn": "arn:aws:iam::454901754926:role/dev-454901754926-ExecutionRole",
+  "containerDefinitions": [
+      {
+          "name": "dev-454901754926-Container",
+          "image": "454901754926.dkr.ecr.ca-central-1.amazonaws.com.dev-454901754926-apache-container-repository:latest",
+          "portMappings": [
+              {
+                  "containerPort": "80"
+              }
+          ]
+      }
+  ]
+}
