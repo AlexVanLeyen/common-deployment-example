@@ -31,6 +31,8 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - run: ls /
+      - run: echo $HOME
       - name: Build, tag, and push images to Amazon ECR
         id: build-image
         env:
@@ -38,8 +40,6 @@ jobs:
           ECR_REPOSITORY: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-apache-container-repository
           IMAGE_TAG: latest
         run: |
-          pwd
-          cd outsmart-emr
           docker build \
             --build-arg TOKEN=${{ secrets.TOKEN }} \
             -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
