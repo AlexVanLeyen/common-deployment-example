@@ -57,6 +57,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-ecs-service
-          cluster: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-cluster
+          service: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-ECSService
+          cluster: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-Cluster
           wait-for-service-stability: true
