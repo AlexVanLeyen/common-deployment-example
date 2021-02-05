@@ -38,10 +38,9 @@ jobs:
           ECR_REPOSITORY: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-apache-container-repository
           IMAGE_TAG: latest
         run: |
-          docker build \
+          docker build ./outsmart-emr \
             --build-arg TOKEN=${{ secrets.TOKEN }} \
-            --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-            ./outsmart-emr/
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
