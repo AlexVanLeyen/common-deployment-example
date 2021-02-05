@@ -15,9 +15,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: docker build \
-          --build-arg TOKEN=${{ secrets.TOKEN }} \
-          --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./outsmart-emr/
+      - run: | 
+          docker build \
+            --build-arg TOKEN=${{ secrets.TOKEN }} \
+            --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./outsmart-emr/
       # - name: Fetch Branch Name
       #   id: fetch-branch-name
       #   shell: bash
