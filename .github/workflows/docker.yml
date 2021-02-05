@@ -10,12 +10,17 @@ on:
       account-id:
         description: AWS Account ID
         required: true
+      port:
+        description: container port binding
+        required: true
+        default: "80"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Fetch Branch Name
         id: fetch-branch-name
         shell: bash
@@ -45,6 +50,21 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
+      - name: Configure Task Definition
+        run: |
+          sed -i "s/<task-role-arn>/$TASK_ROLE_ARN/g" task-definition.json
+          sed -i "s/<execution-role-arn>/$EXECUTION_ROLE_ARN/g" task-definition.json
+          sed -i "s/<family>/$FAMILY/g" task-definition.json
+          sed -i "s/<container-name>/$CONTAINER_NAME/g" task-definition.json
+          sed -i "s/<container-image>/$CONTAINER_IMAGE/g" task-definition.json
+          sed -i "s/<container-port>/$CONTAINER_PORT/g" task-definition.json
+        env:
+            TASK_ROLE_ARN: arn:aws:iam::${{ github.event.inputs.account-id }}:role/${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-ExecutionRole
+            EXECUTION_ROLE_ARN: arn:aws:iam::${{ github.event.inputs.account-id }}:role/${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-ExecutionRole
+            FAMILY: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-TaskDefinition
+            CONTAINER_NAME: ${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-Container
+            CONTAINER_IMAGE: ${{ steps.build-image.outputs.image }}
+            CONTAINER_PORT: ${{ github.event.inputs.port }}
       - name: Render Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
