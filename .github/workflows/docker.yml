@@ -18,7 +18,7 @@ jobs:
       - run: docker build \
           --file ./outsmart-emr/Dockerfile \
           --build-arg TOKEN=${{ secrets.TOKEN }} \
-          --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       # - name: Fetch Branch Name
       #   id: fetch-branch-name
       #   shell: bash
