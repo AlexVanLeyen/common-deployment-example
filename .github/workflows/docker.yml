@@ -52,12 +52,12 @@ jobs:
 
       - name: Configure Task Definition
         run: |
-          sed -i "s/<task-role-arn>/$TASK_ROLE_ARN/g" task-definition.json
-          sed -i "s/<execution-role-arn>/$EXECUTION_ROLE_ARN/g" task-definition.json
-          sed -i "s/<family>/$FAMILY/g" task-definition.json
-          sed -i "s/<container-name>/$CONTAINER_NAME/g" task-definition.json
-          sed -i "s/<container-image>/$CONTAINER_IMAGE/g" task-definition.json
-          sed -i "s/<container-port>/$CONTAINER_PORT/g" task-definition.json
+          sed -i "s@<task-role-arn>@$TASK_ROLE_ARN@g" task-definition.json
+          sed -i "s@<execution-role-arn>@$EXECUTION_ROLE_ARN@g" task-definition.json
+          sed -i "s@<family>@$FAMILY@g" task-definition.json
+          sed -i "s@<container-name>@$CONTAINER_NAME@g" task-definition.json
+          sed -i "s@<container-image>@$CONTAINER_IMAGE@g" task-definition.json
+          sed -i "s@<container-port>@$CONTAINER_PORT@g" task-definition.json
         env:
             TASK_ROLE_ARN: arn:aws:iam::${{ github.event.inputs.account-id }}:role/${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-ExecutionRole
             EXECUTION_ROLE_ARN: arn:aws:iam::${{ github.event.inputs.account-id }}:role/${{ steps.fetch-branch-name.outputs.branch-name }}-${{ github.event.inputs.account-id }}-ExecutionRole
