@@ -15,6 +15,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - run: docker build \
+          --file ./outsmart-emr/Dockerfile
+          --build-arg TOKEN=${{ secrets.TOKEN }} \
+          --tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
       # - name: Fetch Branch Name
       #   id: fetch-branch-name
       #   shell: bash
@@ -30,9 +34,7 @@ jobs:
       # - name: Login to Amazon ECR
       #   id: login-ecr
       #   uses: aws-actions/amazon-ecr-login@v1
-
-      - run: ls
-      # - run: echo $HOME
+      
       # - name: Build, tag, and push images to Amazon ECR
       #   id: build-image
       #   env:
