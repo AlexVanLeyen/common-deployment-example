@@ -7,6 +7,7 @@
   "networkMode": "awsvpc",
   "taskRoleArn": "arn:aws:iam::454901754926:role/dev-454901754926-ExecutionRole",
   "executionRoleArn": "arn:aws:iam::454901754926:role/dev-454901754926-ExecutionRole",
+  "family": "dev-454901754926-TaskDefinition",
   "containerDefinitions": [
       {
           "name": "dev-454901754926-Container",
