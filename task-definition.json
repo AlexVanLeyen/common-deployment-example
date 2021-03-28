@@ -1,0 +1,22 @@
+{
+  "memory": "1024",
+  "cpu": "512",
+  "requiresCompatibilities": [
+      "FARGATE"
+  ],
+  "networkMode": "awsvpc",
+  "taskRoleArn": "<task-role-arn>",
+  "executionRoleArn": "<execution-role-arn>",
+  "family": "<family>",
+  "containerDefinitions": [
+      {
+          "name": "<container-name>",
+          "image": "<container-image>",
+          "portMappings": [
+              {
+                  "containerPort": "<container-port>"
+              }
+          ]
+      }
+  ]
+}

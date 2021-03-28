@@ -1,0 +1,34 @@
+#! /bin/bash
+
+# If bucket name is present in the environment, then our
+# environment variables will be defined in the bucket. If
+# you are testing locally: leave this value empty and define
+# your secrets in a .env file.
+if [ ! -z "$SECRETS_BUCKET_NAME" ]; then
+  eval $(aws s3 cp s3://${SECRETS_BUCKET_NAME}/.env - | sed 's/^/export /')
+fi
+
+
+# This script executes everytime the container starts
+# The outputs from this file will be seen in the container logs
+# You can view using the following command
+# docker logs --tail 1000 -f {container name or hash id}
+
+if [ ! -f /root/.init/git_config_updated ]; then
+    echo "Updating Global Git Configurations"
+
+    git config --global user.name $GIT_NAME 
+    git config --global user.email $GIT_EMAIL
+    # git remote set-url origin https://github.com/smartnd/outsmart.git
+
+    touch -f /root/.init/git_config_updated
+
+    echo "Global Git Configurations Updated"
+fi
+
+# Any other actions
+
+echo "Application Is Ready!"
+
+# This line starts apache after all of the above has executed (DO NOT DELETE)
+exec "$@"
